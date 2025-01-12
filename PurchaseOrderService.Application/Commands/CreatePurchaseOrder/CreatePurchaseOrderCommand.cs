@@ -5,5 +5,5 @@ namespace PurchaseOrderService.Application.Commands.CreatePurchaseOrder;
 
 public record PurchaseOrderItemDto(string GoodCode, Money Price);
 
-public record CreatePurchaseOrderCommand(string Number, DateTime Date, List<PurchaseOrderItemDto> Items) : IRequest<int>;
+public record CreatePurchaseOrderCommand(string Number, DateTime Date,  List<PurchaseOrderItemDto> Items) : IRequest<int>;
 

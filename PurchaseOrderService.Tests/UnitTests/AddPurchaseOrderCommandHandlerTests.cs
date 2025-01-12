@@ -14,8 +14,10 @@ namespace PurchaseOrderService.Tests.UnitTests
         {
             // Arrange
             var mockRepository = new Mock<IPurchaseOrderRepository>();
-            var handler = new CreatePurchaseOrderHandler(mockRepository.Object);
-            var command = new CreatePurchaseOrderCommand("PO123410101", DateTime.Now, 100.00m, new List<PurchaseOrderItemDto>
+            var mockMessageProducer = new Mock<IMessageProducer>();
+            var handler = new CreatePurchaseOrderHandler(mockRepository.Object, mockMessageProducer.Object);
+            var command = new CreatePurchaseOrderCommand("PO123410101", DateTime.Now,
+                new List<PurchaseOrderItemDto>
                 {
                     new PurchaseOrderItemDto("GC1234574575", new Money(50.00m)),
                     new PurchaseOrderItemDto("GC1234674111", new Money(150.00m)),
@@ -34,8 +36,9 @@ namespace PurchaseOrderService.Tests.UnitTests
         {
             // Arrange
             var mockRepository = new Mock<IPurchaseOrderRepository>();
-            var handler = new CreatePurchaseOrderHandler(mockRepository.Object);
-            var command = new CreatePurchaseOrderCommand("PO12345", DateTime.Now, -50.00m, new List<PurchaseOrderItemDto>
+            var mockMessageProducer = new Mock<IMessageProducer>();
+            var handler = new CreatePurchaseOrderHandler(mockRepository.Object, mockMessageProducer.Object);
+            var command = new CreatePurchaseOrderCommand("PO12345", DateTime.Now, new List<PurchaseOrderItemDto>
                 {
                     new PurchaseOrderItemDto("GC1234574585", new Money(50.00m)),
                     new PurchaseOrderItemDto("GC1234678787", new Money(150.00m)),
