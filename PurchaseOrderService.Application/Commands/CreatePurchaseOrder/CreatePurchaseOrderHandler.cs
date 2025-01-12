@@ -1,18 +1,17 @@
 ﻿using MediatR;
 using PurchaseOrderService.Domain.Interfaces;
-using PurchaseOrderService.Domain.Entities;
-using PurchaseOrderService.Domain.ValueObjects;
-
+using PurchaseOrderService.Domain.Entities; 
 namespace PurchaseOrderService.Application.Commands.CreatePurchaseOrder
 {
 
     public class CreatePurchaseOrderHandler : IRequestHandler<CreatePurchaseOrderCommand, int>
     {
         private readonly IPurchaseOrderRepository _repository;
-
-        public CreatePurchaseOrderHandler(IPurchaseOrderRepository repository)
+        private readonly IMessageProducer _messagePublisher;
+        public CreatePurchaseOrderHandler(IPurchaseOrderRepository repository, IMessageProducer messagePublisher)
         {
             _repository = repository;
+            _messagePublisher = messagePublisher;
         }
 
         public async Task<int> Handle(CreatePurchaseOrderCommand request, CancellationToken cancellationToken)
@@ -26,9 +25,14 @@ namespace PurchaseOrderService.Application.Commands.CreatePurchaseOrder
                 purchaseOrder.AddItem(orderItem);
             }
 
-
             await _repository.AddAsync(purchaseOrder);
             await _repository.SaveChangesAsync();
+
+            await _messagePublisher.SendMessageAsync(new CreateShippingOrderDto(
+                poId: purchaseOrder.Id,
+                ShippingDate: purchaseOrder.PODate,
+                TrackingNumber: purchaseOrder.PONumber.ToString()
+            ));
             return purchaseOrder.Id;
         }
     }

@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IntegrationTests\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PurchaseOrderService.Application\PurchaseOrderService.Application.csproj" />
     <ProjectReference Include="..\PurchaseOrderService.Domain\PurchaseOrderService.Domain.csproj" />
   </ItemGroup>

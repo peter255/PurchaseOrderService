@@ -48,12 +48,12 @@ var app = builder.Build();
 app.UseSerilogRequestLogging(); // Add Serilog middleware for request logging
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseOpenApi();
-    app.UseSwaggerUi();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//}
 
+app.UseOpenApi();
+app.UseSwaggerUi();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

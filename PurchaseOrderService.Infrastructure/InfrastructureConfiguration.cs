@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PurchaseOrderService.Domain.Interfaces;
+using PurchaseOrderService.Infrastructure.Messaging;
 using PurchaseOrderService.Infrastructure.Persistence;
 using PurchaseOrderService.Infrastructure.Repositories;
 
@@ -13,10 +14,11 @@ namespace PurchaseOrderService.Infrastructure
         {
             services.AddDbContext<PurchaseOrderDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("PurchaseOrderConnectionString"));
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
  
             services.AddScoped<IPurchaseOrderRepository, PurchaseOrderRepository>();
+            services.AddScoped<IMessageProducer, RabbitMQProducer> ();
         }
     }
 }
